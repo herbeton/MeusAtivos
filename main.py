@@ -1,5 +1,6 @@
 import models
 import yfinance
+import uvicorn
 from fastapi import FastAPI, Request, Depends, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 from database import SessionLocal, engine
@@ -94,3 +95,6 @@ async def create_stock(stock_request: StockRequest, background_tasks: Background
         "code": "success",
         "message": "stock created"
     }
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8010)
