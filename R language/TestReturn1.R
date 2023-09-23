@@ -1,5 +1,7 @@
 install.packages("corrplot")
+install.packages("magrittr")
 
+library(magrittr)
 library(tidyquant)
 library(timetk)
 library(ggplot2)
