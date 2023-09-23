@@ -3,6 +3,7 @@ install.packages("magrittr")
 
 library(magrittr)
 library(tidyquant)
+library(tidyverse)
 library(timetk)
 library(ggplot2)
 library(dplyr)
@@ -95,7 +96,7 @@ netflix_monthly_returns %>%
 
 tickersOld1 <- c("META", "AMZN", "AAPL", "NFLX", "GOOG", "WEGE3.SA", "BTC-USD")
 
-tickers <- c("AMZN", "GOOG", "WEGE3.SA", "BTC-USD", "ADA-USD")
+tickers <- c("AMZN", "GOOG", "WEGE3.SA", "PETR3.SA")
 
 # Dowload the stock price data
 
