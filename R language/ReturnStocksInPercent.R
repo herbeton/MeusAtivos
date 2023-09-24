@@ -8,10 +8,10 @@ library(ggplot2)
 # Portfolio items and weightings
 # *** These should be updated to include your own portfolio holdings and start date to analyse from ***
 # *** Note that the tickers must be named exactly as they appear on Yahoo Finance ***
-tickers <- c("AMZN", "GOOG", "WEGE3.SA", "PETR3.SA", "BTC-USD", "ADA_USD")
+tickers <- c("CPLE6.SA", "GOOG", "WEGE3.SA", "PETR3.SA", "AMZN", "TAEE3.SA")
 weights <- c(.25, .25, .15, .1, .1, .15)
 weightTable <- tibble(symbol = tickers, weights = weights)
-startDate = '2013-11-16'
+startDate = '2013-01-01'
 
 
 

@@ -96,5 +96,25 @@ async def create_stock(stock_request: StockRequest, background_tasks: Background
         "message": "stock created"
     }
 
+
+@app.delete("/stock")
+async def create_stock(stock_request: StockRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    """
+    add one or more tickers to the database
+    background task to use yfinance and load key statistics
+    """
+
+    stock = Stock()
+    stock.symbol = stock_request.symbol
+    db.add(stock)
+    db.commit()
+
+    background_tasks.add_task(fetch_stock_data, stock.id)
+
+    return {
+        "code": "success",
+        "message": "stock created"
+    }
+# para tirar o erro ->  pip install typing-extensions --upgrade
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8010)
