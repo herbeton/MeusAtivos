@@ -36,7 +36,8 @@ $(document).ready(function() {
   $("#saveStockEUA").click(function() {
 
     var textareaContent = $("#pathStocksEua").val();
-    var symbols = textareaContent.split("\n");
+    var textareaContentNew = textareaContent.replace("C:\\fakepath\\", "C:\\Users\\Herbeton\\Downloads\\")
+    var symbols = textareaContentNew.split("\n");
 
     for (var i = 0; i < symbols.length; ++i) {
       console.log(symbols[i]);

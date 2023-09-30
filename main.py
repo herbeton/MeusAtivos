@@ -1,12 +1,13 @@
 import models
 import yfinance
 import uvicorn
+import csv
 from fastapi import FastAPI, Request, Depends, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 from database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from models import Stock
+from models import Stock, StockEUA
 
 app = FastAPI()
 
@@ -90,6 +91,46 @@ async def create_stock(stock_request: StockRequest, background_tasks: Background
     db.commit()
 
     background_tasks.add_task(fetch_stock_data, stock.id)
+
+    return {
+        "code": "success",
+        "message": "stock created"
+    }
+
+
+@app.post("/stockArchiveEua")
+async def create_stock(stock_request: StockRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    """
+    add one or more tickers to the database
+    background task to use yfinance and load key statistics
+    """
+
+    stock = Stock()
+    stock.symbol = stock_request.symbol
+    file = open(stock.symbol)
+    file2 = 'archives/nasdaq_screener_1695743571924.csv'
+    type(file)
+    # readCSV = csv.reader(file, delimiter=',')
+    x = open(file2)
+
+    with open(file2) as csvfile:
+        readCSV = csv.reader(csvfile, delimiter=',')
+        for row in readCSV:
+            if(row[0] != 'Symbol'):
+                print(row)
+                print(row[0], row[1], row[2], row[6], row[7], row[8], row[9], row[10])
+                stockEUA = StockEUA()
+                stockEUA.symbol = row[0]
+                stockEUA.name = row[1]
+                stockEUA.marketCap = row[5]
+                stockEUA.country = row[6]
+                stockEUA.ipoYear = row[7]
+                stockEUA.volume = row[8]
+                stockEUA.sector = row[9]
+                stockEUA.industry = row[10]
+                db.add(stockEUA)
+
+        db.commit()
 
     return {
         "code": "success",
