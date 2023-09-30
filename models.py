@@ -15,6 +15,7 @@ class Stock(Base):
     ma50 = Column(Numeric(10, 2))
     ma200 = Column(Numeric(10, 2))
 
+class StockEUA(Base):
     __tablename__ = "stocks-eua"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -25,5 +26,3 @@ class Stock(Base):
     volume = Column(Numeric(20, 2))
     sector = Column(String, unique=True, index=True)
     Industry = Column(String, unique=True, index=True)
-
-    
