@@ -3,8 +3,8 @@
 {% block content %}
 <script>
 $(document).ready(function() {
-  $("#add_symbol").click(function() {
-    $('.ui.modal').modal('show');
+  $("#add_stocks_eua1").click(function() {
+    $('.ui.modal.1').modal('show');
   });
 
   $("#save").click(function() {
@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     for (var i = 0; i < symbols.length; ++i) {
       console.log(symbols[i]);
-      
+
       $.ajax({
         url: '/stock',
         type: 'POST',
@@ -24,11 +24,36 @@ $(document).ready(function() {
       });
     }
 
-    $('.ui.modal').modal('hide');
+    $('.ui.modal.1').modal('hide');
+  });
+});
+
+$(document).ready(function() {
+  $("#add_stocks_eua2").click(function() {
+    $('.ui.modal.2').modal('show');
+  });
+
+  $("#saveStockEUA").click(function() {
+
+    var textareaContent = $("#pathStocksEua").val();
+    var symbols = textareaContent.split("\n");
+
+    for (var i = 0; i < symbols.length; ++i) {
+      console.log(symbols[i]);
+
+      $.ajax({
+        url: '/stockArchiveEua',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ "symbol": symbols[i] }),
+        dataType: 'json'
+      });
+    }
+
+    $('.ui.modal.2').modal('hide');
   });
 });
 </script>
-
 <h2>Filters</h2>
 
 <form method="get">
@@ -55,7 +80,8 @@ $(document).ready(function() {
 
 </form>
 
-<button id="add_symbol" class="ui button secondary">Add Symbols</button>
+<button id="add_stocks_eua1" class="ui button secondary">Add Symbols</button>
+<button id="add_stocks_eua2" class="ui button secondary">Add Stocks EUA</button>
 
 
 <table class="ui celled table">
@@ -85,7 +111,8 @@ $(document).ready(function() {
   </tbody>
 </table>
 
-<div class="ui modal">
+<div id="modalAddStock">
+    <div class="ui modal 1">
     <i class="close icon"></i>
     <div class="header">
       Add Stocks
@@ -105,5 +132,30 @@ $(document).ready(function() {
       </div>
     </div>
   </div>
+</div>
+
+<div id="addStockEUA">
+    <div class="ui modal 2">
+    <i class="close icon"></i>
+    <div class="header">
+      Add Stocks EUA
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field">
+                <label for="pathStocksEua">Choose .csv archive NASDAQ EUA:</label>
+                <input type="file" id="pathStocksEua" name="stocksEUA" accept=".csv" />
+            </div>
+          </div>
+    </div>
+
+    <div class="actions">
+      <div id="saveStockEUA" class="ui positive right labeled icon button">
+        Add Stocks
+        <i class="plus icon"></i>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
